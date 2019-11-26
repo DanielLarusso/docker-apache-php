@@ -18,8 +18,9 @@ RUN apt-get update -y && apt-get install -y \
     libmcrypt-dev \
     libpng-dev \
     libcurl4-openssl-dev \
-    libcurl3 \
+    libcurl4 \
     libxslt1-dev \
+    libzip-dev \
     zlib1g-dev \
     curl \
     vim \
@@ -37,8 +38,7 @@ RUN docker-php-ext-install \
     pdo_mysql \
     soap
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-    pecl install ssh2-1.1.2
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 RUN a2enmod rewrite
 RUN a2enmod ssl
@@ -55,7 +55,7 @@ RUN php -r "unlink('composer-setup.php');"
 RUN chown -R 1000:www-data /var/www
 
 # apache2 setup
-COPY ./config/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY ${pwd}/config/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR $WORKDIR
 
