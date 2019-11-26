@@ -1,6 +1,8 @@
 # pull from default image
 FROM php:7.3-apache
 
+ENV WORKDIR /var/www/html
+
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y --fix-missing apt-utils && \
@@ -46,7 +48,7 @@ RUN echo "alias ll='ls -al'" >> /etc/bash.bashrc
 
 # install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer
+RUN php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer --version=1.9.1
 RUN php -r "unlink('composer-setup.php');"
 
 # set ownership of /var/www
@@ -55,4 +57,6 @@ RUN chown -R 1000:www-data /var/www
 # apache2 setup
 COPY ./config/vhost.conf /etc/apache2/sites-available/000-default.conf
 
-WORKDIR /var/www/html
+WORKDIR $WORKDIR
+
+EXPOSE 80
