@@ -1,5 +1,5 @@
 # pull from default image
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 ENV WORKDIR /var/www/html
 
@@ -38,7 +38,7 @@ RUN docker-php-ext-install \
     pdo_mysql \
     soap
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure gd
 
 RUN a2enmod rewrite
 RUN a2enmod ssl
@@ -53,9 +53,6 @@ RUN php -r "unlink('composer-setup.php');"
 
 # set ownership of /var/www
 RUN chown -R 1000:www-data /var/www
-
-# apache2 setup
-COPY ${pwd}/config/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR $WORKDIR
 
