@@ -26,7 +26,8 @@ RUN apt-get update -y && apt-get install -y \
     vim \
     git \
     zip \
-    unzip
+    unzip \
+    cron
 
 # install php extensions
 RUN docker-php-ext-install \
