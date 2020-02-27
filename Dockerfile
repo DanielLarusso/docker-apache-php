@@ -44,6 +44,9 @@ RUN docker-php-ext-configure gd
 RUN a2enmod rewrite
 RUN a2enmod ssl
 
+# copy apache config into the container
+COPY ${pwd}/config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+
 # create nifty ls -al alias
 RUN echo "alias ll='ls -al'" >> /etc/bash.bashrc
 
