@@ -56,8 +56,6 @@ RUN php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer --v
 RUN php -r "unlink('composer-setup.php');"
 
 # set ownership of /var/www
-RUN chown -R 1000:www-data /var/www
+RUN chown -R www-data:www-data /var/www
 
 WORKDIR $WORKDIR
-
-EXPOSE 80
